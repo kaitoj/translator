@@ -1,0 +1,17 @@
+{
+    "name": "kaitoj/translator",
+    "description": "Replace lang json with database",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kaito Jacobson",
+            "email": "kaito.jacobson@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Kaitoj\\Translator\\":"src/"
+        }
+    }
+}
