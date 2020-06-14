@@ -2,56 +2,53 @@
 
 namespace Kaitoj\Translator;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\TranslationServiceProvider as IlluminateTranslationServiceProvider;
 
-class TranslationServiceProvider extends ServiceProvider implements DeferrableProvider
+class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 {
     /**
-     * Register the service provider.
-     *
-     * @return void
+     * Register the application services.
      */
     public function register()
     {
-        $this->registerLoader();
+        parent::register();
 
-        $this->app->singleton('translator', function ($app) {
-            $loader = $app['translation.loader'];
-
-            // When registering the translator component, we'll need to set the default
-            // locale as well as the fallback locale. So, we'll grab the application
-            // configuration so we can easily get both of these values from there.
-            $locale = $app['config']['app.locale'];
-
-            $trans = new Translator($loader, $locale);
-
-            $trans->setFallback($app['config']['app.fallback_locale']);
-            
-            return $trans;
-        });
+        $this->mergeConfigFrom(__DIR__.'/../config/translator.php', 'translator');
     }
 
     /**
-     * Register the translation line loader.
-     *
-     * @return void
+     * Bootstrap the application services.
+     */
+    public function boot()
+    {
+        if ($this->app->runningInConsole() && ! Str::contains($this->app->version(), 'Lumen')) {
+            $this->publishes([
+                __DIR__.'/../config/translator.php' => config_path('translator.php'),
+            ], 'config');
+
+            if (! class_exists('CreateLanguageLinesTable')) {
+                $timestamp = date('Y_m_d_His', time());
+
+                $this->publishes([
+                    __DIR__.'/../database/migrations/create_language_lines_table.php' => database_path('migrations/'.$timestamp.'_create_language_lines_table.php'),
+                ], 'migrations');
+            }
+        }
+    }
+
+    /**
+     * Register the translation line loader. This method registers a
+     * `TranslationLoaderManager` instead of a simple `FileLoader` as the
+     * applications `translation.loader` instance.
      */
     protected function registerLoader()
     {
         $this->app->singleton('translation.loader', function ($app) {
+            $class = config('translation-loader.translation_manager');
             
-            return new FileLoader($app['files'], $app['path.lang']);
+            return new $class($app['files'], $app['path.lang']);
         });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['translator', 'translation.loader'];
     }
 }
