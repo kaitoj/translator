@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
-class LanguageLine extends Model
+class Translation extends Model
 {
+    
+    /** @var string */
+    public $table = 'translations';
+
     /** @var array */
     public $translatable = ['text'];
 
@@ -16,13 +20,13 @@ class LanguageLine extends Model
 
     /** @var array */
     protected $casts = ['text' => 'array'];
-
+    
     public static function boot()
     {
         parent::boot();
-
-        $flushGroupCache = function (self $languageLine) {
-            $languageLine->flushGroupCache();
+        
+        $flushGroupCache = function (self $translation) {
+            $translation->flushGroupCache();
         };
 
         static::saved($flushGroupCache);
@@ -35,12 +39,11 @@ class LanguageLine extends Model
             return static::query()
                 ->where('group', $group)
                 ->get()
-                ->reduce(function ($lines, self $languageLine) use ($locale) {
-                    $translation = $languageLine->getTranslation($locale);
+                ->reduce(function ($lines, self $translation) use ($locale) {
+                    $translations = $translation->getTranslation($locale);
                     if ($translation !== null) {
-                        Arr::set($lines, $languageLine->key, $translation);
+                        Arr::set($lines, $translation->key, $translations);
                     }
-
                     return $lines;
                 }) ?? [];
         });

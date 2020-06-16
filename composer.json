@@ -1,5 +1,5 @@
 {
-    "name": "kaitoj/transltor",
+    "name": "kaitoj/translator",
     "description": "Database data source for laravel translation",
     "keywords": [
         "kaitoj",
@@ -23,6 +23,7 @@
     ],
     "require": {
         "php": "^7.2",
+        "illuminate/support": "^7.15",
         "illuminate/translation": "~5.8.0|^6.0|^7.0"
     },
     "require-dev": {

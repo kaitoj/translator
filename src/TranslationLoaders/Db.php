@@ -3,7 +3,7 @@
 namespace Kaitoj\Translator\TranslationLoaders;
 
 use Kaitoj\Translator\Exceptions\InvalidConfiguration;
-use Kaitoj\Translator\LanguageLine;
+use Kaitoj\Translator\Translation;
 
 class Db implements TranslationLoader
 {
@@ -18,7 +18,7 @@ class Db implements TranslationLoader
     {
         $modelClass = config('translation-loader.model');
 
-        if (! is_a(new $modelClass, LanguageLine::class)) {
+        if (! is_a(new $modelClass, Translation::class)) {
             throw InvalidConfiguration::invalidModel($modelClass);
         }
 

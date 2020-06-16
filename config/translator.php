@@ -12,9 +12,9 @@ return [
 
     /*
      * This is the model used by the Translation loader. You can put any model here
-     * as long as it extends Kaitoj\Translator\LanguageLine.
+     * as long as it extends Kaitoj\Translator\Translation.
      */
-    'model' => Kaitoj\Translator\LanguageLine::class,
+    'model' => Kaitoj\Translator\Translation::class,
 
     /*
      * This is the translation manager which overrides the default Laravel `translation.loader`

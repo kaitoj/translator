@@ -3,13 +3,13 @@
 namespace Kaitoj\Translator\Exceptions;
 
 use Exception;
-use Kaitoj\Translator\LanguageLine;
+use Kaitoj\Translator\Translation;
 
 class InvalidConfiguration extends Exception
 {
     public static function invalidModel(string $className): self
     {
         return new static("You have configured an invalid class `{$className}`.".
-            'A valid class extends '.LanguageLine::class.'.');
+            'A valid class extends '.Translation::class.'.');
     }
 }
