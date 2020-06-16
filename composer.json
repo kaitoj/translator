@@ -1,17 +1,58 @@
 {
     "name": "kaitoj/translator",
-    "description": "Replace lang json with database",
+    "description": "Database data source for laravel translation",
+    "keywords": [
+        "kaitoj",
+        "laravel",
+        "laravel-translator",
+        "translator",
+        "database",
+        "db",
+        "language",
+        "i8n"
+    ],
+    "homepage": "https://github.com/kaitoj/translator",
     "license": "MIT",
     "authors": [
         {
             "name": "Kaito Jacobson",
-            "email": "kaito.jacobson@gmail.com"
+            "email": "kaito.jacobson@gmail.com",
+            "homepage": "https://www.kai-dev.xyz",
+            "role": "Developer"
         }
     ],
-    "require": {},
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "^7.15",
+        "illuminate/translation": "~5.8.0|^6.0|^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "orchestra/testbench":  "~3.8.0|^4.0|^5.0"
+    },
     "autoload": {
         "psr-4": {
-            "Kaitoj\\Translator\\":"src/"
+            "Kaitoj\\Translator\\": "src"
         }
-    }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kaitoj\\Translator\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kaitoj\\Translator\\TranslationServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
