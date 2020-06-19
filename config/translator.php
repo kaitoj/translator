@@ -2,6 +2,8 @@
 
 return [
 
+    'prefix_path' => 'translator', 
+    'namespace' => 'Kaitoj\Translator\Http\Controllers',
     /*
      * Language lines will be fetched by these loaders. You can put any class here that implements
      * the Kaitoj\Translator\TranslationLoaders\{interface}.
