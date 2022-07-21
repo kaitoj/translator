@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": ">=7.2",
         "illuminate/support": ">=7.15",
         "illuminate/translation": "~5.8.0|^6.0|^7.0"
     },
